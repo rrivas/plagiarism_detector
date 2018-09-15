@@ -12,4 +12,4 @@ class CalculateIntersection:
         return float(len(self.intersections())) / len(self.comparison)
 
     def rate_text(self):
-        return "Plagirism Rate: {0:.0%}".format(self.rate())
+        return "{0:.0%}".format(self.rate())

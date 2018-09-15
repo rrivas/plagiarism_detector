@@ -1,4 +1,5 @@
 import string
+import sys
 
 class File(object):
     def __init__(self, file, synonym_dictionary, tuple_size):
@@ -9,6 +10,10 @@ class File(object):
         self.synonymized_tuples = self.generate_tuples(self.synonymized_contents)
 
     def generate_tuples(self, contents):
+        if len(contents) < self.tuple_size:
+            print "Tuple size must be less than or equal to word count in {}".format(self.file)
+            sys.exit()
+
         tuples = []
         max_index = len(contents) - self.tuple_size
 
