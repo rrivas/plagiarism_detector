@@ -1,10 +1,24 @@
 import string
 
 class File(object):
-    def __init__(self, file, synonym_dictionary):
+    def __init__(self, file, synonym_dictionary, tuple_size):
         self.file = file
+        self.tuple_size = tuple_size
         self.file_contents = self.sanitized_contents()
         self.synonymized_contents = self.synonymize(synonym_dictionary)
+        self.synonymized_tuples = self.generate_tuples(self.synonymized_contents)
+
+    def generate_tuples(self, contents):
+        tuples = []
+        max_index = len(contents) - self.tuple_size
+
+        for idx, word in enumerate(contents):
+            if max_index >=  idx:
+                tuple = contents[idx:idx+self.tuple_size]
+                joined_tuple = ' '.join(tuple)
+                tuples.append(joined_tuple)
+
+        return tuples
 
     def __get_file_contents(self):
         return open(self.file, 'r').read()
