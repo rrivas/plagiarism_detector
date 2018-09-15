@@ -17,9 +17,43 @@ synonym_file = args[0]
 control_file = args[1]
 comparison_file = args[2]
 
+class File(object):
+    def __init__(self, file):
+        self.file = file
+        self.file_contents = self.sanitized_contents()
+
+    def __get_file_contents(self):
+        return open(self.file, 'r').read()
+
+    def __singularize_whitespace(self, contents):
+        return contents.split()
+
+    def __join_file_contents(self, contents):
+        return ' '.join(contents)
+
+    def __remove_punctuation(self, contents):
+        return contents.translate(None, string.punctuation)
+
+    def __lower_case(self, contents):
+        return contents.lower()
+
+    def sanitized_contents(self):
+        contents = self.__get_file_contents()
+        contents = self.__singularize_whitespace(contents)
+        contents = self.__join_file_contents(contents)
+        contents = self.__remove_punctuation(contents)
+        contents = self.__lower_case(contents)
+
+        return contents
+
+
+control = File(control_file)
+comparison = File(comparison_file)
+
 class Synonym(object):
     def __init__(self, file):
-        self.file = open(synonym_file, 'r').read()
+        self.file = file
+        self.file_contents = open(self.file, 'r').read()
         self.synonym_dictionary = self.generate_dictionary()
 
     def dictionary(self):
@@ -27,7 +61,7 @@ class Synonym(object):
 
     def generate_dictionary(self):
         dictionary = {}
-        synonym_array = self.file.split("\n")
+        synonym_array = self.file_contents.split("\n")
 
         for row in synonym_array:
             synonyms = row.split()
@@ -38,16 +72,11 @@ class Synonym(object):
                 dictionary[synonym] = hashed_synonyms_value
 
         return dictionary
-
-t = Synonym(synonym_file)
-print t.dictionary()
-
-syns_file = open(synonym_file, 'r').read()
 # maybe do the punctuation thing?
 # purpase was an attempt to handle exclamation points
 # lower case all the things
-file_1 = ' '.join(open(control_file, 'r').read().split()).translate(None, string.punctuation)
-file_2 = open(comparison_file, 'r').read()
+file_1 = control.file_contents
+file_2 = comparison.file_contents
 
 def synonym_dictionary(synonyms_file):
     dictionary = {}
@@ -93,7 +122,7 @@ def intersection(file_1_tuples, file_2_tuples):
     intersection_list = [value for value in file_1_tuples if value in file_2_set]
     return intersection_list
 
-dictionary = synonym_dictionary(syns_file)
+dictionary = Synonym(synonym_file).dictionary()
 file_1_words = synonymize(file_1, dictionary)
 file_2_words = synonymize(file_2, dictionary)
 
