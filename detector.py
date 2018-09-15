@@ -1,13 +1,28 @@
 import sys
 import string
 
-syns_file = open(sys.argv[1], 'r').read()
+num_tuples = 3
+args = sys.argv[1:]
+
+if not args or len(args) < 3:
+    print "Instructions"
+    sys.exit()
+elif len(args) == 4:
+    num_tuples = int(args[3])
+elif len(args) > 4:
+    print "Instructions"
+    sys.exit()
+
+synonym_file = args[0]
+control_file = args[1]
+comparison_file = args[2]
+
+syns_file = open(synonym_file, 'r').read()
 # maybe do the punctuation thing?
 # purpase was an attempt to handle exclamation points
 # lower case all the things
-file_1 = ' '.join(open(sys.argv[2], 'r').read().split()).translate(None, string.punctuation)
-file_2 = open(sys.argv[3], 'r').read()
-num_tuples = int(sys.argv[4]) # default to three if blank
+file_1 = ' '.join(open(control_file, 'r').read().split()).translate(None, string.punctuation)
+file_2 = open(comparison_file, 'r').read()
 
 def synonym_dictionary(synonyms_file):
     dictionary = {}
@@ -79,3 +94,5 @@ print "Plagirism Rate: {0:.0%}".format(rate_of_intersection)
 # Plagirism Calculator Object
 # - Object that calculates the intersection and the rate
 
+# to deal with
+# if tuple is larger than string then error out
