@@ -14,7 +14,7 @@ The command is:
 python detector.py -s syns.txt -c file1.txt -o file2.txt -t 3
 ```
 
-For additional help you can run: `python detector.py -h`
+For additional help or clarification on argument names, you can run: `python detector.py -h`
 
 # File Structure
 I have broken out the majority of the work into their respective Classes. The detector.py file is only used to coordinate between the classes, output results and handle passed in arguments.
