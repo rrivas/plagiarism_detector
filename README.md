@@ -20,9 +20,11 @@ For additional help or clarification on argument names, you can run: `python det
 I have broken out the majority of the work into their respective Classes. The detector.py file is only used to coordinate between the classes, output results and handle passed in arguments.
 
 **synonym.py**
+
 The Synonym class handles creating a dictionary with a hash value that's used to replace content from the comparison and control files
 
 **file.py**
+
 The File class will get content from the supplied files and sanitize it. Once sanitized, it'll replace the synonyms and provide the method to create tuples to be used to identify the plagiarism rate.
 
 # Algorithm
@@ -39,15 +41,19 @@ This algorithm tries to avoid exponential run times. There's a lot of preprocess
 
 # Possible Improvements
 **Synonyms**
+
 The dictionary could be compiled once for a multitude of comparisons. Synonyms don't change frequently. Having a faster data structure having a precompiled dictionary ready would definitely improve creation time and read times when comparing.
 
 **Set Hashing**
+
 While the synonym width is currently 3, replacing a word with a combination of 3 isn't so bad. When the hashing gets long, then we're replacing one word with a lot more and may be memory intensive. We could create a smarter hash that could be set to a constant length to reduce this problem. We'll just have to avoid collissions. Precompiling a master synonym dictionary would allow us to find collissions and treat them accordingly.
 
 **ARGV Parsing**
+
 The way things are being passed in is very redimentary. The usage of the ArgumentParser package would improve usability and define variables much more clearly.
 
 **Tests**
+
 Due to time constraints and the available languages for this exercise, I wasn't able to build out a testing framework. All the methods have been kept simple in order to supply tests given more time to research the unittest library for python.
 
 # Other Usages
